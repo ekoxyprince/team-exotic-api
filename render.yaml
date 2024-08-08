@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: team-exotic-api
+    env: node
+    buildCommand: npm run build
+    startCommand: npm start
+    plan: free
+    region: oregon # You can change this to your preferred region
+    autoDeploy: true
+    branches:
+      - main # Replace with your default branch name if different
