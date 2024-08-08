@@ -13,6 +13,8 @@ const server = http_1.default.createServer(app_1.default);
     .then((connected) => {
     server.listen(config_1.default.port, () => {
         console.log(`Listening on port ${config_1.default.port}`);
+        console.log(`Server running on ${config_1.default.server_url}`);
+        console.log(`Client server is on ${config_1.default.client_url}`);
     });
     return user_model_1.default.findOne();
 })
