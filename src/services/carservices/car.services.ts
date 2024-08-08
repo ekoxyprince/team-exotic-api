@@ -31,7 +31,7 @@ export default class CarService {
     this.files!.forEach((file) => {
       let imageObj: imageObject = {};
       imageObj["url"] =
-        config.server_url + `${file.destination}${file.filename}`.slice(12);
+        config.server_url + `${file.destination}${file.filename}`.slice(config.split_val);
       imageArr.push(imageObj);
     });
     return Car.create({

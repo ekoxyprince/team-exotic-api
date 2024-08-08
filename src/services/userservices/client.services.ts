@@ -46,8 +46,8 @@ export default class ClientService {
       if(!client){
         return Client.create({
           ...this.body,
-          insuranceImage:config.server_url+`${this.files[0].destination}${this.files[0].filename}`.slice(12),
-          licenseImage:config.server_url+`${this.files[1].destination}${this.files[1].filename}`.slice(12)
+          insuranceImage:config.server_url+`${this.files[0].destination}${this.files[0].filename}`.slice(config.split_val),
+          licenseImage:config.server_url+`${this.files[1].destination}${this.files[1].filename}`.slice(config.split_val)
         })
       }
       return client

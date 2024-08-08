@@ -1,5 +1,6 @@
 import multer, { FileFilterCallback } from "multer";
 import { Request } from "express";
+import config from "../config";
 import path from 'path'
 
 type DestinationCallback = (error: Error | null, destination: string) => void;
@@ -11,7 +12,7 @@ const fileStorageEngine = multer.diskStorage({
     file: Express.Multer.File,
     cb: DestinationCallback
   ): void => {
-    cb(null,"./src/public/uploads/");
+    cb(null,config.image_path);
   },
   filename: (
     req: Request,

@@ -21,8 +21,8 @@ export default class UserService{
                 this.user[key] = Object.values(body)[i]
             }
         }
-        this.user['profileImage'] = config.server_url+`${files[0].destination}${files[0].filename}`.slice(12)
-        this.user['coverImage'] =config.server_url+`${files[1].destination}${files[1].filename}`.slice(12)
+        this.user['profileImage'] = config.server_url+`${files[0].destination}${files[0].filename}`.slice(config.split_val)
+        this.user['coverImage'] =config.server_url+`${files[1].destination}${files[1].filename}`.slice(config.split_val)
         this.user.save()
     }
     getDashboardDetails = async()=>{
