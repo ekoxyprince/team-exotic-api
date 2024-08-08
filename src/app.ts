@@ -10,6 +10,7 @@ import path from "path";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
+import config from "./config";
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(compression())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet())
-app.use(cors({origin:"http://localhost:5173"}));
+app.use(cors({origin:config.client_url}));
 app.use(logger("dev"));
 
 app.use("/api/", mainRoutes);
