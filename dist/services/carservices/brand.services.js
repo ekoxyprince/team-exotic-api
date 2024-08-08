@@ -22,13 +22,13 @@ class BrandServices {
         this.saveBrand = () => __awaiter(this, void 0, void 0, function* () {
             const brand = yield brand_model_1.default.create({
                 name: this.body['name'],
-                image: config_1.default.server_url + `${this.file.destination}${this.file.filename}`.slice(12)
+                image: config_1.default.server_url + `${this.file.destination}${this.file.filename}`.slice(config_1.default.split_val)
             });
         });
         this.updateBrand = (id) => __awaiter(this, void 0, void 0, function* () {
             const updatedBrand = yield brand_model_1.default.findOneAndUpdate({ _id: id }, {
                 name: this.body['name'],
-                image: config_1.default.server_url + `${this.file.destination}${this.file.filename}`.slice(12)
+                image: config_1.default.server_url + `${this.file.destination}${this.file.filename}`.slice(config_1.default.split_val)
             });
         });
         this.body = body;

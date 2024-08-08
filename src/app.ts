@@ -24,7 +24,7 @@ app.use(
   cors({
     origin: config.client_url,
     methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type",
+    allowedHeaders:'Content-Type, Authorization',
   })
 );
 app.use(logger("dev"));

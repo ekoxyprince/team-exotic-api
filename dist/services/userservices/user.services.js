@@ -61,8 +61,8 @@ class UserService {
                 this.user[key] = Object.values(body)[i];
             }
         }
-        this.user['profileImage'] = config_1.default.server_url + `${files[0].destination}${files[0].filename}`.slice(12);
-        this.user['coverImage'] = config_1.default.server_url + `${files[1].destination}${files[1].filename}`.slice(12);
+        this.user['profileImage'] = config_1.default.server_url + `${files[0].destination}${files[0].filename}`.slice(config_1.default.split_val);
+        this.user['coverImage'] = config_1.default.server_url + `${files[1].destination}${files[1].filename}`.slice(config_1.default.split_val);
         this.user.save();
     }
 }

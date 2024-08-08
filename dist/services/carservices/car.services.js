@@ -26,7 +26,7 @@ class CarService {
         this.files.forEach((file) => {
             let imageObj = {};
             imageObj["url"] =
-                config_1.default.server_url + `${file.destination}${file.filename}`.slice(12);
+                config_1.default.server_url + `${file.destination}${file.filename}`.slice(config_1.default.split_val);
             imageArr.push(imageObj);
         });
         return car_model_1.default.create(Object.assign(Object.assign({}, this.body), { images: imageArr, availableFrom: new Date(this.body.availableFrom), availableTo: new Date(this.body.availableTo) }))

@@ -41,7 +41,7 @@ class ClientService {
     findOrCreateClient() {
         return client_model_1.default.findOne({ email: this.body.email }).then(client => {
             if (!client) {
-                return client_model_1.default.create(Object.assign(Object.assign({}, this.body), { insuranceImage: config_1.default.server_url + `${this.files[0].destination}${this.files[0].filename}`.slice(12), licenseImage: config_1.default.server_url + `${this.files[1].destination}${this.files[1].filename}`.slice(12) }));
+                return client_model_1.default.create(Object.assign(Object.assign({}, this.body), { insuranceImage: config_1.default.server_url + `${this.files[0].destination}${this.files[0].filename}`.slice(config_1.default.split_val), licenseImage: config_1.default.server_url + `${this.files[1].destination}${this.files[1].filename}`.slice(config_1.default.split_val) }));
             }
             return client;
         })
