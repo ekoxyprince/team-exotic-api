@@ -46,11 +46,7 @@ app.use((0, compression_1.default)());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use((0, helmet_1.default)());
-app.use((0, cors_1.default)({
-    origin: config_1.default.client_url,
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: 'Content-Type, Authorization',
-}));
+app.use((0, cors_1.default)({ origin: config_1.default.client_url }));
 app.use((0, morgan_1.default)("dev"));
 app.use("/api/", index_route_1.default);
 app.use("/api/admin", auth_middleware_1.default, admin_route_1.default);

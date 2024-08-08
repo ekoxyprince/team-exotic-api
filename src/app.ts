@@ -16,17 +16,11 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-app.use(compression());
+app.use(compression())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(helmet());
-app.use(
-  cors({
-    origin: config.client_url,
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders:'Content-Type, Authorization',
-  })
-);
+app.use(helmet())
+app.use(cors({origin:config.client_url}));
 app.use(logger("dev"));
 
 app.use("/api/", mainRoutes);
