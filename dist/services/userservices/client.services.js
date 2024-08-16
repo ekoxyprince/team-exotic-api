@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_model_1 = __importDefault(require("../../database/models/client.model"));
 const error_1 = require("../../exceptions/error");
 const config_1 = __importDefault(require("../../config"));
+const mail_1 = __importDefault(require("../../helpers/mail"));
 class ClientService {
     constructor(body, files) {
         this.body = body;
@@ -90,7 +91,9 @@ class ClientService {
     }
     static findAndUpdate(id) {
         return client_model_1.default.findByIdAndUpdate(id, { status: "verified" })
-            .then((client) => undefined)
+            .then((client) => {
+            mail_1.default.userVerification(client === null || client === void 0 ? void 0 : client.firstname, client === null || client === void 0 ? void 0 : client.email);
+        })
             .catch((error) => {
             throw new Error(error);
         });

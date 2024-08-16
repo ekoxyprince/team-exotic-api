@@ -8,6 +8,7 @@ import { PaymentBody } from "../paymentservices/payment.services";
 import { CarDocument } from "../../database/models/car.model";
 import { ObjectId } from "mongoose";
 import { AuthorizationError } from "../../exceptions/error";
+import mailer from "../../helpers/mail";
 
 export interface OrderParams {
   limit: number;
@@ -31,8 +32,10 @@ export default class OrderService {
   async createOrder() {
     const clientService = new ClientService(this.body, this.files);
     const client = await clientService.findOrCreateClient();
-    if(client.status !== "verified"){
-    throw new AuthorizationError("Account must be verified to proceed!")
+    if (client.status !== "verified") {
+      await mailer.registration(client.firstname,client.email)
+      await mailer.adminVerification()
+      throw new AuthorizationError("Account must be verified to proceed!");
     }
     const car: CarDocument | null = (await CarService.findById(
       this.body.id
@@ -43,6 +46,8 @@ export default class OrderService {
       car: car!._id,
       totalAmount: car.price + car.price * 0.1288,
     });
+    await mailer.orderPlacement(client.firstname,client.email,car.name)
+    await mailer.adminOrderVerification(car.name)
     const paymentData: PaymentBody | any = {
       ..._.pick(car, ["name", "price"]),
       orderId: order._id as string,
@@ -67,7 +72,10 @@ export default class OrderService {
       query["status"] = filterObj.status;
     }
     const totalCount = await Order.countDocuments(query);
-    const orders = await Order.find(query).sort("-createdAt").populate("car","name images").populate("client","firstname lastname");
+    const orders = await Order.find(query)
+      .sort("-createdAt")
+      .populate("car", "name images")
+      .populate("client", "firstname lastname");
     return {
       total_order: totalCount,
       orders: orders,
@@ -79,8 +87,8 @@ export default class OrderService {
   static findById(id: ObjectId | string): Promise<object | null> {
     return Order.findById(id)
       .sort("-createdAt")
-      .populate("car","name images")
-      .populate("client","firstname lastname")
+      .populate("car", "name images")
+      .populate("client", "firstname lastname")
       .then((order) => order)
       .catch((error) => {
         throw new Error(error);

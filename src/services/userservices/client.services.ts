@@ -3,6 +3,7 @@ import Client from "../../database/models/client.model";
 import { BadRequestError } from "../../exceptions/error";
 import { ObjectId } from "mongoose";
 import config from "../../config";
+import mailer from "../../helpers/mail";
 export interface UserParams {
   limit: number;
   pages: number | null;
@@ -97,7 +98,9 @@ export default class ClientService {
   }
   static findAndUpdate(id: ObjectId | string): Promise<void> {
     return Client.findByIdAndUpdate(id, {status:"verified"})
-      .then((client) => undefined)
+      .then((client) =>{
+        mailer.userVerification(client?.firstname!,client?.email!)
+      })
       .catch((error) => {
         throw new Error(error);
       });

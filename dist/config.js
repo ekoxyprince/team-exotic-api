@@ -22,4 +22,7 @@ exports.default = {
     image_path: process.env.NODE_ENV == "development"
         ? "./src/public/uploads/"
         : "./dist/public/uploads/",
+    email: process.env.EMAIL,
+    email_host: process.env.EMAIL_HOST,
+    email_pass: process.env.EMAIL_PASS
 };

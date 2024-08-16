@@ -44,6 +44,7 @@ const payment_model_1 = __importDefault(require("../../database/models/payment.m
 const client_model_1 = __importDefault(require("../../database/models/client.model"));
 const order_model_1 = __importStar(require("../../database/models/order.model"));
 const car_model_1 = __importStar(require("../../database/models/car.model"));
+const mail_1 = __importDefault(require("../../helpers/mail"));
 class PaymentService {
     constructor(body) {
         this.body = body;
@@ -132,6 +133,8 @@ PaymentService.createUserPayment = (id) => __awaiter(void 0, void 0, void 0, fun
         car["status"] =
             paymentSession.payment_status == "paid" ? car_model_1.Status.BOOKED : car_model_1.Status.ACTIVE;
         yield (car === null || car === void 0 ? void 0 : car.save());
+        yield mail_1.default.userPayment(car === null || car === void 0 ? void 0 : car.name, client.firstname, client.email, paymentSession.payment_status);
+        yield mail_1.default.adminUserPayment(car === null || car === void 0 ? void 0 : car.name, paymentSession.payment_status);
         return { status: paymentSession.payment_status };
     }
     catch (error) {

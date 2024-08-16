@@ -18,6 +18,7 @@ const order_model_1 = __importDefault(require("../../database/models/order.model
 const car_services_1 = __importDefault(require("./car.services"));
 const _ = require("lodash");
 const error_1 = require("../../exceptions/error");
+const mail_1 = __importDefault(require("../../helpers/mail"));
 class OrderService {
     constructor(body, files) {
         this.body = body;
@@ -30,10 +31,14 @@ class OrderService {
             const clientService = new client_services_1.default(this.body, this.files);
             const client = yield clientService.findOrCreateClient();
             if (client.status !== "verified") {
+                yield mail_1.default.registration(client.firstname, client.email);
+                yield mail_1.default.adminVerification();
                 throw new error_1.AuthorizationError("Account must be verified to proceed!");
             }
             const car = (yield car_services_1.default.findById(this.body.id));
             const order = yield order_model_1.default.create(Object.assign(Object.assign({}, this.body), { client: client._id, car: car._id, totalAmount: car.price + car.price * 0.1288 }));
+            yield mail_1.default.orderPlacement(client.firstname, client.email, car.name);
+            yield mail_1.default.adminOrderVerification(car.name);
             const paymentData = Object.assign(Object.assign({}, _.pick(car, ["name", "price"])), { orderId: order._id, clientId: client._id, clientName: client.firstname, clientEmail: client.email });
             paymentData["price"] += paymentData["price"] * 0.1288 + 1000;
             paymentData["price"] = Math.ceil(paymentData["price"] * 100);
@@ -54,7 +59,10 @@ class OrderService {
                 query["status"] = filterObj.status;
             }
             const totalCount = yield order_model_1.default.countDocuments(query);
-            const orders = yield order_model_1.default.find(query).sort("-createdAt").populate("car", "name images").populate("client", "firstname lastname");
+            const orders = yield order_model_1.default.find(query)
+                .sort("-createdAt")
+                .populate("car", "name images")
+                .populate("client", "firstname lastname");
             return {
                 total_order: totalCount,
                 orders: orders,

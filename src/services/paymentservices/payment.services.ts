@@ -10,6 +10,7 @@ import Order, {
 } from "../../database/models/order.model";
 import Car, { Status } from "../../database/models/car.model";
 import { ObjectId } from "mongoose";
+import mailer from "../../helpers/mail";
 
 export interface PaymentBody {
   name: string;
@@ -112,6 +113,8 @@ class PaymentService {
       car!["status"] =
         paymentSession.payment_status == "paid" ? Status.BOOKED : Status.ACTIVE;
       await car?.save();
+      await mailer.userPayment(car?.name!,client.firstname,client.email,paymentSession.payment_status)
+      await mailer.adminUserPayment(car?.name!,paymentSession.payment_status)
       return { status: paymentSession.payment_status };
     } catch (error) {
       const err = <Error>error;
