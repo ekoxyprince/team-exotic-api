@@ -42,7 +42,7 @@ router
   .post([upload.array("image")], controller.createUserForOrder);
 router
   .route("/client/:driverLicenseNumber")
-  .get([auth],controller.findUser);
+  .get(controller.findUser);
 router
 .route("/checkout")
 .post([upload.array("image")],controller.testStripe)

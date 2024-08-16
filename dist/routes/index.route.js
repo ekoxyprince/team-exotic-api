@@ -64,7 +64,7 @@ router
     .post([upload_middleware_1.default.array("image")], controller.createUserForOrder);
 router
     .route("/client/:driverLicenseNumber")
-    .get([auth_middleware_1.default], controller.findUser);
+    .get(controller.findUser);
 router
     .route("/checkout")
     .post([upload_middleware_1.default.array("image")], controller.testStripe);
