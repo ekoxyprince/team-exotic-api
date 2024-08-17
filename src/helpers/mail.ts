@@ -1,6 +1,7 @@
 import { createTransport } from "nodemailer";
 import config from "../config";
 import template from "./template";
+import { BadRequestError } from "../exceptions/error";
 
 async function mail(html: string, subject: string, email?: string | undefined) {
   const transporter = createTransport({
@@ -8,7 +9,7 @@ async function mail(html: string, subject: string, email?: string | undefined) {
       user: config.email,
       pass: config.email_pass,
     },
-    port:465,
+    port: 465,
     secure: true,
     host: config.email_host,
     tls: {
@@ -31,7 +32,11 @@ class Mailer {
       "You have successfully registered on team exotic rentals Kindly wait while we verify your documents",
       "Account Registration"
     );
-    return mail(msg, "Account Registration", email);
+    return mail(msg, "Account Registration", email)
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
   adminVerification = () => {
     const msg = template.message(
@@ -39,7 +44,11 @@ class Mailer {
       `A new user has registered kindly verify the provided documents`,
       "User Registration"
     );
-    return mail(msg, "Account Registation");
+    return mail(msg, "Account Registation")
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
   userVerification = (name: string, email: string) => {
     const msg = template.message(
@@ -47,7 +56,11 @@ class Mailer {
       "Provided details have been verified and you can now proceed with your order",
       "Account Verification"
     );
-    return mail(msg, "Account Verification", email);
+    return mail(msg, "Account Verification", email)
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
   orderPlacement = (name: string, email: string, car: string) => {
     const msg = template.message(
@@ -55,7 +68,11 @@ class Mailer {
       `You made a request to book one of our rides: ${car}. we await your payment.`,
       "Ride Booked"
     );
-    return mail(msg, "Ride Booked", email);
+    return mail(msg, "Ride Booked", email)
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
   adminOrderVerification = (car: string) => {
     const msg = template.message(
@@ -63,7 +80,11 @@ class Mailer {
       `A user just booked ${car} kindly go online to validate this order`,
       "Order Booked"
     );
-    return mail(msg, "Ride Booked");
+    return mail(msg, "Ride Booked")
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
   userPayment = (car: string, name: string, email: string, status: string) => {
     const msg = template.message(
@@ -71,7 +92,11 @@ class Mailer {
       `Your payment status for ${car} is ${status}.`,
       "Payment notification"
     );
-    return mail(msg, "Payment notification", email);
+    return mail(msg, "Payment notification", email)
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
   adminUserPayment = (car: string, status: string) => {
     const msg = template.message(
@@ -79,7 +104,11 @@ class Mailer {
       `The payment status for ${car} is ${status}`,
       `Payment notification`
     );
-    return mail(msg, `Payment notification`);
+    return mail(msg, `Payment notification`)
+      .then((msg) => msg)
+      .catch((error) => {
+        throw new BadRequestError(error);
+      });
   };
 }
 

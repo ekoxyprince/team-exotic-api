@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = require("nodemailer");
 const config_1 = __importDefault(require("../config"));
 const template_1 = __importDefault(require("./template"));
+const error_1 = require("../exceptions/error");
 function mail(html, subject, email) {
     return __awaiter(this, void 0, void 0, function* () {
         const transporter = (0, nodemailer_1.createTransport)({
@@ -43,31 +44,59 @@ class Mailer {
     constructor() {
         this.registration = (name, email) => {
             const msg = template_1.default.message(name, "You have successfully registered on team exotic rentals Kindly wait while we verify your documents", "Account Registration");
-            return mail(msg, "Account Registration", email);
+            return mail(msg, "Account Registration", email)
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
         this.adminVerification = () => {
             const msg = template_1.default.message("Admin", `A new user has registered kindly verify the provided documents`, "User Registration");
-            return mail(msg, "Account Registation");
+            return mail(msg, "Account Registation")
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
         this.userVerification = (name, email) => {
             const msg = template_1.default.message(name, "Provided details have been verified and you can now proceed with your order", "Account Verification");
-            return mail(msg, "Account Verification", email);
+            return mail(msg, "Account Verification", email)
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
         this.orderPlacement = (name, email, car) => {
             const msg = template_1.default.message(name, `You made a request to book one of our rides: ${car}. we await your payment.`, "Ride Booked");
-            return mail(msg, "Ride Booked", email);
+            return mail(msg, "Ride Booked", email)
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
         this.adminOrderVerification = (car) => {
             const msg = template_1.default.message("Admin", `A user just booked ${car} kindly go online to validate this order`, "Order Booked");
-            return mail(msg, "Ride Booked");
+            return mail(msg, "Ride Booked")
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
         this.userPayment = (car, name, email, status) => {
             const msg = template_1.default.message(name, `Your payment status for ${car} is ${status}.`, "Payment notification");
-            return mail(msg, "Payment notification", email);
+            return mail(msg, "Payment notification", email)
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
         this.adminUserPayment = (car, status) => {
             const msg = template_1.default.message("Admin", `The payment status for ${car} is ${status}`, `Payment notification`);
-            return mail(msg, `Payment notification`);
+            return mail(msg, `Payment notification`)
+                .then((msg) => msg)
+                .catch((error) => {
+                throw new error_1.BadRequestError(error);
+            });
         };
     }
 }
