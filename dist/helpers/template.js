@@ -3,54 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class HtmlTemplate {
     constructor() {
         this.message = (name, message, subject) => {
-            return `<html>  
-            <body style='color: #000; font-size: 16px; text-decoration: none; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; background-color: #efefef;'>
-            <div id='logo' style='color:#E1B530;padding:10px;'>
-            <center><h1 style='margin: 0px;'><img class='nav-logo' src="https://teamexoticrentals.com/assets/comp-logo-BY9clw1O.png"></h1></center>
-            
-        </div>
-        
-                <div id='wrapper' style='max-width: 600px; margin: auto auto; padding: 20px;'>
-
-                    <div id='content' style='font-size: 16px; padding: 25px; background-color: #fff;
-                        moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; -khtml-border-radius: 10px;
-                        border-color: blue; border-width: 4px 1px; border-style: solid;position:relative;top:-180px;'>
-
-                        <h1 style='font-size: 22px;'><center>${subject}</center></h1>
-
-                        <p>From Team Exotic Rentals,</p>
-                        <p>hello, ${name}</p>
-                        ${message}
-                        <p> 
-                        Best Regards!<br>
-                        Management,<br>
-                        Team Exotic Rentals.
-
-                        </p>
-                        <br />
-                        <p><center><a href='https://www.teamexoticrentals.com'></a></center></p>
-
-                        <p style='display: flex; justify-content: center; margin-top: 10px;'><center>
-
-                             </div>
-                        </center></p>
-
-                    </div>
-                    <div id='footer1' style='margin-bottom: 20px; padding: 0px 8px; text-align: center;background-color: #e5e7e9; padding: 10px;position:relative;top:-180px;'>
-
-                    Have a problem? contact us. We're active from Mondays to Fridays 8am - 5pm, then Saturdays 10am - 4pm
-                    <p>
-                    C/ 1575 Evergreen Ave, Juneau, Alaska 99801, USA.
-                    </p>
-
-               </div>
-                    <div id='footer' style='margin-bottom: 20px; padding: 0px 8px; text-align: center;position:relative;top:-180px;'>
-
-                         Copyright Team Exotic Rentals 2024.
-                    </div>
-                </div>
-            </body>
-        </html>`;
+            return ` <div style="background: #f5f5f9; width: 100%; height: 100%; ">
+        <center>
+            <div style="width: 280px; height: auto;">
+               <img src="https://teamexoticrentals.com/assets/comp-logo-BY9clw1O.png" alt="Goldmarketinc"/>
+            </div>
+         <div style="width: 92%; height: 200px; background: #fff; padding: 30px 15px; border-radius: 14px;">
+           <h2 style="text-align: center; color: #807b7b; font-family: sans-serif; font-size: 18px; font-weight: 600;">${subject}</h2>
+           <p style="text-align: justify; margin-left: 20px;">Hello ${name},</p>
+           <p style="text-align: justify; margin:0 15px;">${message}</p>
+         </div>
+         <div style="width: 90%;">
+            <p style="font-size: 13.5px; color: #807b7b; font-weight: 700; margin-left: 20px;">TeamExoticRentals, United states.</p>
+            <p style="font-size: 12px; color: #807b7b; font-weight: 600; margin-left: 15px;">© 2023 Goldmarketinc, All Rights Reserved.</p>
+         </div>
+        </center>
+    </div>`;
         };
     }
 }
