@@ -18,7 +18,7 @@ export interface ClientDocument extends Document {
   zipcode: string;
   country: string;
   insuranceCompany: string;
-  insurancePolicyNumber: number;
+  insurancePolicyNumber: string;
   dateOfBirth: Date;
   driverLicenseNumber: number;
   insuranceImage: string;
@@ -73,7 +73,7 @@ const ClientSchema: Schema = new Schema<ClientDocument>({
     required: [true, "Client insurance company is required"],
   },
   insurancePolicyNumber: {
-    type: Number,
+    type: String,
     required: [true, "Client policy company is required"],
     unique:true
   },

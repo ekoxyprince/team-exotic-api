@@ -86,7 +86,7 @@ const ClientSchema = new mongoose_1.Schema({
         required: [true, "Client insurance company is required"],
     },
     insurancePolicyNumber: {
-        type: Number,
+        type: String,
         required: [true, "Client policy company is required"],
         unique: true
     },
