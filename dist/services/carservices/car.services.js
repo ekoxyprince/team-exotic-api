@@ -116,7 +116,7 @@ class CarService {
         });
     }
     static findOtherCarsExcept(query) {
-        return car_model_1.default.find({ _id: { $ne: query.id } })
+        return car_model_1.default.find({ _id: { $ne: query.id }, status: 'active' })
             .sort("-createdAt")
             .limit(6)
             .populate("brand", "name image")
