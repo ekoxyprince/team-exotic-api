@@ -110,6 +110,14 @@ class Mailer {
         throw new BadRequestError(error);
       });
   };
+  adminSiteMail = (name:string,email:string,phone:string,message:string)=>{
+    const msg = template.message(
+      "Admin",
+      `${name} sent a message to you from his email ${email} saying: ${message}. you can also contact him on ${phone}`,
+      `Incoming message from ${name}`
+    );
+    return mail(msg,`Message from ${name}`)
+  }
 }
 
 export default new Mailer();

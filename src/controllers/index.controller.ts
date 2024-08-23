@@ -8,6 +8,7 @@ import PaymentService from "../services/paymentservices/payment.services";
 import OrderService from "../services/carservices/order.services";
 import { UserParams } from "../services/userservices/client.services";
 import config from "../config";
+import mailer from "../helpers/mail";
 
 export const createCar = catchAsync(async (req, res) => {
   const carService = new CarService(req.body, <Express.Multer.File[]>req.files);
@@ -214,3 +215,14 @@ export const createUserPayment = catchAsync(async (req, res) => {
     .status(303)
     .redirect(`${config.client_url}/payment?status=${redirectQuery}`);
 });
+
+export const sendMessageToAdmin = catchAsync(async(req,res)=>{
+  const {message,name,phone,email} = req.body
+  const data = await mailer.adminSiteMail(name,email,phone,message)
+  res.status(200).json({
+    success: true,
+    status: 200,
+    message: "Email sent",
+    data:null,
+  });
+})

@@ -19,7 +19,9 @@ export interface OrderParams {
 interface Query {
   status?: string;
 }
-interface OrderRequestBody extends ClientDocument, OrderDocument {}
+interface OrderRequestBody extends ClientDocument, OrderDocument {
+  intervals:number
+}
 
 export default class OrderService {
   constructor(
@@ -44,7 +46,7 @@ export default class OrderService {
       ...this.body,
       client: client._id,
       car: car!._id,
-      totalAmount: car.price + car.price * 0.1288,
+      totalAmount: (car.price*this.body.intervals) + (car.price*this.body.intervals) * 0.1288,
     });
     await mailer.orderPlacement(client.firstname,client.email,car.name)
     await mailer.adminOrderVerification(car.name)
@@ -55,6 +57,7 @@ export default class OrderService {
       clientName: client.firstname,
       clientEmail: client.email,
     };
+    paymentData['price'] *= this.body.intervals
     paymentData["price"] += paymentData["price"] * 0.1288 + 1000;
     paymentData["price"] = Math.ceil(paymentData["price"] * 100);
     const paymentService = new PaymentService(<PaymentBody>paymentData);
