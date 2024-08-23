@@ -55,5 +55,8 @@ router
 router
 .route("/payment/cancel")
 .get(controller.createUserPayment)
+router
+.route("/message")
+.get(controller.sendMessageToAdmin)
 
 export default router;
