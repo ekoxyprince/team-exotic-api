@@ -79,5 +79,5 @@ router
     .get(controller.createUserPayment);
 router
     .route("/message")
-    .get(controller.sendMessageToAdmin);
+    .post(controller.sendMessageToAdmin);
 exports.default = router;
