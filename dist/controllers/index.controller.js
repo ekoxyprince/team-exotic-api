@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUserPayment = exports.findById = exports.findAllClients = exports.testStripe = exports.findUser = exports.findOrCreateUser = exports.createUserForOrder = exports.findOtherCarsExcept = exports.deleteBrand = exports.findAllBrands = exports.findSingleBrand = exports.updateBrand = exports.createBrand = exports.findByFilter = exports.deleteSingleCar = exports.updateSingleCar = exports.getSingleCar = exports.getCarsPaginated = exports.getCars = exports.createCar = void 0;
+exports.sendMessageToAdmin = exports.createUserPayment = exports.findById = exports.findAllClients = exports.testStripe = exports.findUser = exports.findOrCreateUser = exports.createUserForOrder = exports.findOtherCarsExcept = exports.deleteBrand = exports.findAllBrands = exports.findSingleBrand = exports.updateBrand = exports.createBrand = exports.findByFilter = exports.deleteSingleCar = exports.updateSingleCar = exports.getSingleCar = exports.getCarsPaginated = exports.getCars = exports.createCar = void 0;
 const car_services_1 = __importDefault(require("../services/carservices/car.services"));
 const brand_services_1 = __importDefault(require("../services/carservices/brand.services"));
 const catchasync_1 = __importDefault(require("../utilities/catchasync"));
@@ -20,6 +20,7 @@ const client_services_1 = __importDefault(require("../services/userservices/clie
 const payment_services_1 = __importDefault(require("../services/paymentservices/payment.services"));
 const order_services_1 = __importDefault(require("../services/carservices/order.services"));
 const config_1 = __importDefault(require("../config"));
+const mail_1 = __importDefault(require("../helpers/mail"));
 exports.createCar = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const carService = new car_services_1.default(req.body, req.files);
     const data = yield carService.create();
@@ -202,4 +203,14 @@ exports.createUserPayment = (0, catchasync_1.default)((req, res) => __awaiter(vo
     res
         .status(303)
         .redirect(`${config_1.default.client_url}/payment?status=${redirectQuery}`);
+}));
+exports.sendMessageToAdmin = (0, catchasync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { message, name, phone, email } = req.body;
+    const data = yield mail_1.default.adminSiteMail(name, email, phone, message);
+    res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Email sent",
+        data: null,
+    });
 }));

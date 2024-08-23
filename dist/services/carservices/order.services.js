@@ -36,10 +36,11 @@ class OrderService {
                 throw new error_1.AuthorizationError("Account must be verified to proceed!");
             }
             const car = (yield car_services_1.default.findById(this.body.id));
-            const order = yield order_model_1.default.create(Object.assign(Object.assign({}, this.body), { client: client._id, car: car._id, totalAmount: car.price + car.price * 0.1288 }));
+            const order = yield order_model_1.default.create(Object.assign(Object.assign({}, this.body), { client: client._id, car: car._id, totalAmount: (car.price * this.body.intervals) + (car.price * this.body.intervals) * 0.1288 }));
             yield mail_1.default.orderPlacement(client.firstname, client.email, car.name);
             yield mail_1.default.adminOrderVerification(car.name);
             const paymentData = Object.assign(Object.assign({}, _.pick(car, ["name", "price"])), { orderId: order._id, clientId: client._id, clientName: client.firstname, clientEmail: client.email });
+            paymentData['price'] *= this.body.intervals;
             paymentData["price"] += paymentData["price"] * 0.1288 + 1000;
             paymentData["price"] = Math.ceil(paymentData["price"] * 100);
             const paymentService = new payment_services_1.default(paymentData);
