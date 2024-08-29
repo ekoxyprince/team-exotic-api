@@ -14,7 +14,7 @@ class HtmlTemplate{
          </div>
          <div style="width: 90%;">
             <p style="font-size: 13.5px; color: #807b7b; font-weight: 700; margin-left: 20px;">TeamExoticRentals, United states.</p>
-            <p style="font-size: 12px; color: #807b7b; font-weight: 600; margin-left: 15px;">© 2023 Goldmarketinc, All Rights Reserved.</p>
+            <p style="font-size: 12px; color: #807b7b; font-weight: 600; margin-left: 15px;">© 2024 Team Exotic Rentals, All Rights Reserved.</p>
          </div>
         </center>
     </div>`
