@@ -37,7 +37,6 @@ export default class OrderService {
     if (client.status !== "verified") {
       await mailer.registration(client.firstname,client.email)
       await mailer.adminVerification()
-      throw new AuthorizationError("Account must be verified to proceed!");
     }
     const car: CarDocument | null = (await CarService.findById(
       this.body.id

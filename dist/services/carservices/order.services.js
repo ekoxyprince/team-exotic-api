@@ -17,7 +17,6 @@ const client_services_1 = __importDefault(require("../userservices/client.servic
 const order_model_1 = __importDefault(require("../../database/models/order.model"));
 const car_services_1 = __importDefault(require("./car.services"));
 const _ = require("lodash");
-const error_1 = require("../../exceptions/error");
 const mail_1 = __importDefault(require("../../helpers/mail"));
 class OrderService {
     constructor(body, files) {
@@ -33,7 +32,6 @@ class OrderService {
             if (client.status !== "verified") {
                 yield mail_1.default.registration(client.firstname, client.email);
                 yield mail_1.default.adminVerification();
-                throw new error_1.AuthorizationError("Account must be verified to proceed!");
             }
             const car = (yield car_services_1.default.findById(this.body.id));
             const order = yield order_model_1.default.create(Object.assign(Object.assign({}, this.body), { client: client._id, car: car._id, totalAmount: (car.price * this.body.interval) + (car.price * this.body.interval) * 0.1288 }));
